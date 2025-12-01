@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mininix | Desenvolvedor Fullstack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --primary: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --primary-light: #a78bfa;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --dark: #09090b;
+      --dark-light: #18181b;
+      --dark-lighter: #27272a;
+      --dark-border: #3f3f46;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --gradient-1: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      --gradient-2: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+      --gradient-3: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      --gradient-4: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: -2;
+    }
+
+    .gradient-orbs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.5;
+      animation: pulse 8s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: var(--primary);
+      top: -20%;
+      left: -10%;
+    }
+
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: var(--secondary);
+      bottom: -20%;
+      right: -10%;
+      animation-delay: -4s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: var(--accent);
+      top: 50%;
+      right: 20%;
+      animation-delay: -2s;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.1); opacity: 0.6; }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: var(--gradient-1);
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-content {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--primary-light);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge i { width: 16px; height: 16px; }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .gradient {
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn i { width: 18px; height: 18px; }
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: white;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--dark-lighter);
+      color: var(--text);
+      border: 1px solid var(--dark-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--dark-border);
+      border-color: var(--primary);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-visual {
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .code-window {
+      background: var(--dark-light);
+      border: 1px solid var(--dark-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: var(--dark-lighter);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red { background: #ef4444; }
+    .code-dot.yellow { background: #f59e0b; }
+    .code-dot.green { background: #10b981; }
+
+    .code-title {
+      margin-left: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .code-body {
+      padding: 24px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .code-line {
+      display: flex;
+      gap: 16px;
+    }
+
+    .line-number {
+      color: var(--text-muted);
+      opacity: 0.5;
+      user-select: none;
+      min-width: 24px;
+    }
+
+    .code-content .keyword { color: #c084fc; }
+    .code-content .function { color: #60a5fa; }
+    .code-content .string { color: #4ade80; }
+    .code-content .comment { color: #6b7280; font-style: italic; }
+    .code-content .variable { color: #f472b6; }
+    .code-content .bracket { color: #fbbf24; }
+
+    .floating-cards {
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .floating-card {
+      background: var(--dark-light);
+      border: 1px solid var(--dark-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .floating-card:nth-child(2) { animation-delay: -1s; }
+    .floating-card:nth-child(3) { animation-delay: -2s; }
+
+    .floating-card i { width: 20px; height: 20px; }
+    .floating-card span { font-size: 0.85rem; font-weight: 500; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section { padding: 100px 0; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--primary-light);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .section-title .gradient {
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #services {
+      background: var(--dark-light);
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-1);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-card:nth-child(2)::before { background: var(--gradient-2); }
+    .service-card:nth-child(3)::before { background: var(--gradient-3); }
+    .service-card:nth-child(4)::before { background: var(--gradient-4); }
+    .service-card:nth-child(5)::before { background: var(--gradient-2); }
+    .service-card:nth-child(6)::before { background: var(--gradient-3); }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .service-card:nth-child(2) .service-icon { background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2); }
+    .service-card:nth-child(3) .service-icon { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+    .service-card:nth-child(4) .service-icon { background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.2); }
+    .service-card:nth-child(5) .service-icon { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); }
+    .service-card:nth-child(6) .service-icon { background: rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.2); }
+
+    .service-icon i { width: 28px; height: 28px; color: var(--primary-light); }
+    .service-card:nth-child(2) .service-icon i { color: var(--secondary); }
+    .service-card:nth-child(3) .service-icon i { color: var(--success); }
+    .service-card:nth-child(4) .service-icon i { color: #ec4899; }
+    .service-card:nth-child(5) .service-icon i { color: var(--accent); }
+    .service-card:nth-child(6) .service-icon i { color: #6366f1; }
+
+    .service-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+    .service-card > p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+    .service-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .service-features li { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
+    .service-features li i { width: 16px; height: 16px; color: var(--success); }
+
+    #tech { padding: 80px 0; }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 16px;
+    }
+
+    .tech-item {
+      background: var(--dark-light);
+      border: 1px solid var(--dark-border);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .tech-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+    }
+
+    .tech-item i { width: 32px; height: 32px; margin-bottom: 12px; color: var(--primary-light); }
+    .tech-item span { display: block; font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    #portfolio {
+      background: var(--dark-light);
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .portfolio-card {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .portfolio-card.featured { grid-column: span 2; }
+    .portfolio-card.featured .portfolio-image { height: 280px; }
+
+    .portfolio-image {
+      height: 180px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    }
+
+    .portfolio-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238b5cf6' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+
+    .portfolio-card:nth-child(2) .portfolio-image { background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #4a1942 100%); }
+    .portfolio-card:nth-child(2) .portfolio-image::before { background: radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.3) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 70%); }
+    
+    .portfolio-card:nth-child(3) .portfolio-image { background: linear-gradient(135deg, #0d1f22 0%, #1a3a3a 50%, #0f4c4c 100%); }
+    .portfolio-card:nth-child(3) .portfolio-image::before { background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 70%); }
+    
+    .portfolio-card:nth-child(4) .portfolio-image { background: linear-gradient(135deg, #1f1a2e 0%, #3d1b3d 50%, #4a1960 100%); }
+    .portfolio-card:nth-child(4) .portfolio-image::before { background: radial-gradient(circle at 10% 20%, rgba(236, 72, 153, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 70%); }
+
+    .portfolio-icon-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .portfolio-card.featured .portfolio-icon-wrapper {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+    }
+
+    .portfolio-image i { width: 48px; height: 48px; color: var(--primary-light); }
+    .portfolio-card.featured .portfolio-image i { width: 56px; height: 56px; }
+    .portfolio-card:nth-child(2) .portfolio-image i { color: var(--accent); }
+    .portfolio-card:nth-child(3) .portfolio-image i { color: var(--success); }
+    .portfolio-card:nth-child(4) .portfolio-image i { color: #ec4899; }
+
+    .portfolio-floating-elements {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .portfolio-floating-elements span {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 50%;
+    }
+
+    .portfolio-floating-elements span:nth-child(1) { width: 80px; height: 80px; top: -20px; left: -20px; }
+    .portfolio-floating-elements span:nth-child(2) { width: 60px; height: 60px; bottom: -15px; right: 20%; }
+    .portfolio-floating-elements span:nth-child(3) { width: 40px; height: 40px; top: 30%; right: -10px; }
+    .portfolio-floating-elements span:nth-child(4) { width: 100px; height: 100px; bottom: -40px; left: 30%; }
+
+    .portfolio-content { padding: 28px; }
+    .portfolio-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .portfolio-tag { background: rgba(139, 92, 246, 0.1); color: var(--primary-light); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
+    .portfolio-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+    .portfolio-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+    .portfolio-features { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .portfolio-feature { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); }
+    .portfolio-feature i { width: 14px; height: 14px; color: var(--success); }
+
+    #process { padding: 100px 0; }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .process-step {
+      text-align: center;
+      padding: 32px 24px;
+      position: relative;
+    }
+
+    .process-step::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      right: -12px;
+      width: 24px;
+      height: 2px;
+      background: var(--dark-border);
+    }
+
+    .process-step:last-child::after { display: none; }
+
+    .process-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 0 auto 20px;
+    }
+
+    .process-step h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .process-step p { font-size: 0.9rem; color: var(--text-muted); }
+
+    #cta { padding: 120px 0; text-align: center; }
+
+    .cta-box {
+      background: var(--dark-light);
+      border: 1px solid var(--dark-border);
+      border-radius: 24px;
+      padding: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gradient-1); }
+    .cta-box h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+    .cta-box p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: var(--dark-lighter);
+      border: 1px solid var(--dark-border);
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .cta-btn:hover { border-color: var(--primary); background: rgba(139, 92, 246, 0.1); transform: translateY(-2px); }
+    .cta-btn i { width: 22px; height: 22px; }
+    .cta-btn.discord i { color: #5865F2; }
+    .cta-btn.whatsapp i { color: #25D366; }
+
+    footer {
+      background: var(--dark-light);
+      padding: 40px 0;
+      border-top: 1px solid var(--dark-border);
+    }
+
+    footer .container { display: flex; justify-content: space-between; align-items: center; }
+    footer p { color: var(--text-muted); font-size: 0.9rem; }
+    footer .social-links { display: flex; gap: 16px; }
+    footer .social-links a { width: 40px; height: 40px; border-radius: 10px; background: var(--dark-lighter); border: 1px solid var(--dark-border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.3s; }
+    footer .social-links a:hover { border-color: var(--primary); color: var(--primary); }
+    footer .social-links i { width: 18px; height: 18px; }
+
+    @media (max-width: 1024px) {
+      .hero .container { grid-template-columns: 1fr; text-align: center; }
+      .hero-content { order: 1; }
+      .hero-visual { order: 0; max-width: 500px; margin: 0 auto; }
+      .hero-stats { justify-content: center; }
+      .hero-buttons { justify-content: center; }
+      .floating-cards { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .tech-grid { grid-template-columns: repeat(4, 1fr); }
+      .portfolio-card.featured { grid-column: span 1; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-step::after { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero .subtitle { font-size: 1rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .hero-stats { flex-direction: column; gap: 20px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: repeat(3, 1fr); }
+      .process-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 40px 24px; }
+      .cta-box h2 { font-size: 1.8rem; }
+      footer .container { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="gradient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <i data-lucide="code-2"></i>
+        Mininix
+      </div>
+      <ul class="nav-links">
+        <li><a href="#services"><i data-lucide="layers"></i> Serviços</a></li>
+        <li><a href="#portfolio"><i data-lucide="folder"></i> Portfólio</a></li>
+        <li><a href="#process"><i data-lucide="git-branch"></i> Processo</a></li>
+        <li><a href="#cta" class="nav-cta">Contato</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i data-lucide="sparkles"></i>
+          Disponível para novos projetos
+        </div>
+        <h1>Transformo ideias em<br><span class="gradient">soluções digitais</span></h1>
+        <p class="subtitle">Desenvolvedor Fullstack especializado em bots Discord, sistemas web e automações que trabalham 24/7 para o seu negócio.</p>
+        <div class="hero-buttons">
+          <a href="#cta" class="btn btn-primary"><i data-lucide="message-circle"></i> Iniciar Projeto</a>
+          <a href="#portfolio" class="btn btn-secondary"><i data-lucide="folder-open"></i> Ver Portfólio</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-value">50+</div><div class="stat-label">Projetos Entregues</div></div>
+          <div class="stat"><div class="stat-value">2+</div><div class="stat-label">Anos de Experiência</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="code-window">
+          <div class="code-header">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div>
+            <span class="code-title">bot.js</span>
+          </div>
+          <div class="code-body">
+            <div class="code-line"><span class="line-number">1</span><span class="code-content"><span class="comment">// Bot Discord profissional</span></span></div>
+            <div class="code-line"><span class="line-number">2</span><span class="code-content"><span class="keyword">const</span> <span class="variable">bot</span> = <span class="function">createBot</span><span class="bracket">(</span><span class="bracket">)</span>;</span></div>
+            <div class="code-line"><span class="line-number">3</span><span class="code-content"></span></div>
+            <div class="code-line"><span class="line-number">4</span><span class="code-content"><span class="variable">bot</span>.<span class="function">addFeature</span><span class="bracket">(</span><span class="string">'tickets'</span><span class="bracket">)</span>;</span></div>
+            <div class="code-line"><span class="line-number">5</span><span class="code-content"><span class="variable">bot</span>.<span class="function">addFeature</span><span class="bracket">(</span><span class="string">'vendas'</span><span class="bracket">)</span>;</span></div>
+            <div class="code-line"><span class="line-number">6</span><span class="code-content"><span class="variable">bot</span>.<span class="function">addFeature</span><span class="bracket">(</span><span class="string">'pagamentos'</span><span class="bracket">)</span>;</span></div>
+            <div class="code-line"><span class="line-number">7</span><span class="code-content"></span></div>
+            <div class="code-line"><span class="line-number">8</span><span class="code-content"><span class="variable">bot</span>.<span class="function">start</span><span class="bracket">(</span><span class="bracket">)</span>; <span class="comment">// 24/7 online</span></span></div>
+          </div>
+        </div>
+        <div class="floating-cards">
+          <div class="floating-card"><i data-lucide="check-circle" style="color: #10b981;"></i><span>Pagamento confirmado!</span></div>
+          <div class="floating-card"><i data-lucide="ticket" style="color: #8b5cf6;"></i><span>Novo ticket aberto</span></div>
+          <div class="floating-card"><i data-lucide="shopping-cart" style="color: #f59e0b;"></i><span>Venda realizada</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i data-lucide="briefcase"></i> Serviços</span>
+        <h2 class="section-title">O que eu <span class="gradient">posso criar</span> para você</h2>
+        <p class="section-desc">Soluções completas e personalizadas para transformar seu negócio digital</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="bot"></i></div>
+          <h3>Bots Discord</h3>
+          <p>Automatize seu servidor com bots profissionais</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> Sistema de tickets</li>
+            <li><i data-lucide="check"></i> Vendas automatizadas</li>
+            <li><i data-lucide="check"></i> Moderação inteligente</li>
+            <li><i data-lucide="check"></i> Comandos personalizados</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="globe"></i></div>
+          <h3>Sites & Landing Pages</h3>
+          <p>Sites modernos e responsivos que convertem</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> Design atraente</li>
+            <li><i data-lucide="check"></i> Mobile-first</li>
+            <li><i data-lucide="check"></i> Otimizado para SEO</li>
+            <li><i data-lucide="check"></i> Alta performance</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="layout-dashboard"></i></div>
+          <h3>Dashboards</h3>
+          <p>Painéis administrativos completos</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> Gestão de vendas</li>
+            <li><i data-lucide="check"></i> Relatórios em tempo real</li>
+            <li><i data-lucide="check"></i> Controle de usuários</li>
+            <li><i data-lucide="check"></i> Configurações dinâmicas</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="credit-card"></i></div>
+          <h3>Integração de Pagamentos</h3>
+          <p>Receba pagamentos automaticamente</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> PIX automático</li>
+            <li><i data-lucide="check"></i> Confirmação instantânea</li>
+            <li><i data-lucide="check"></i> Múltiplas gateways</li>
+            <li><i data-lucide="check"></i> Relatórios de vendas</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="database"></i></div>
+          <h3>Banco de Dados</h3>
+          <p>Armazenamento seguro e escalável</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> Firebase Realtime</li>
+            <li><i data-lucide="check"></i> Estrutura otimizada</li>
+            <li><i data-lucide="check"></i> Backup automático</li>
+            <li><i data-lucide="check"></i> Sincronização em tempo real</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-lucide="zap"></i></div>
+          <h3>APIs & Integrações</h3>
+          <p>Conecte sistemas e automatize processos</p>
+          <ul class="service-features">
+            <li><i data-lucide="check"></i> REST APIs</li>
+            <li><i data-lucide="check"></i> Webhooks</li>
+            <li><i data-lucide="check"></i> Cotações em tempo real</li>
+            <li><i data-lucide="check"></i> Integrações customizadas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i data-lucide="cpu"></i> Tecnologias</span>
+        <h2 class="section-title">Stack <span class="gradient">Tecnológica</span></h2>
+        <p class="section-desc">Ferramentas que utilizo para construir soluções robustas</p>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item"><i data-lucide="file-code-2"></i><span>JavaScript</span></div>
+        <div class="tech-item"><i data-lucide="server"></i><span>Node.js</span></div>
+        <div class="tech-item"><i data-lucide="bot"></i><span>Discord.js</span></div>
+        <div class="tech-item"><i data-lucide="flame"></i><span>Firebase</span></div>
+        <div class="tech-item"><i data-lucide="code"></i><span>HTML5</span></div>
+        <div class="tech-item"><i data-lucide="palette"></i><span>CSS3</span></div>
+        <div class="tech-item"><i data-lucide="git-branch"></i><span>Git</span></div>
+        <div class="tech-item"><i data-lucide="link"></i><span>REST APIs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i data-lucide="folder-open"></i> Portfólio</span>
+        <h2 class="section-title">Projetos <span class="gradient">Recentes</span></h2>
+        <p class="section-desc">Alguns dos trabalhos que desenvolvi para clientes</p>
+      </div>
+      <div class="portfolio-grid">
+        <div class="portfolio-card featured">
+          <div class="portfolio-image">
+            <div class="portfolio-floating-elements">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="portfolio-icon-wrapper"><i data-lucide="shopping-bag"></i></div>
+          </div>
+          <div class="portfolio-content">
+            <div class="portfolio-tags">
+              <span class="portfolio-tag">Discord.js</span>
+              <span class="portfolio-tag">Firebase</span>
+              <span class="portfolio-tag">Node.js</span>
+              <span class="portfolio-tag">PIX API</span>
+            </div>
+            <h3>Sistema Completo de Vendas Automatizadas</h3>
+            <p>Bot Discord com sistema de tickets, carrinho de compras, pagamento PIX automático, dashboards para fornecedores, cashback e cupons de desconto. Sistema completo de vendas automatizadas.</p>
+            <div class="portfolio-features">
+              <span class="portfolio-feature"><i data-lucide="check"></i> 14 jogos configurados</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> 7 dashboards</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> Logs HTML completos</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> 6 métodos de pagamento</span>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="portfolio-image">
+            <div class="portfolio-floating-elements">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="portfolio-icon-wrapper"><i data-lucide="layout-dashboard"></i></div>
+          </div>
+          <div class="portfolio-content">
+            <div class="portfolio-tags">
+              <span class="portfolio-tag">HTML/CSS</span>
+              <span class="portfolio-tag">JavaScript</span>
+              <span class="portfolio-tag">Firebase</span>
+            </div>
+            <h3>Dashboard Administrativo</h3>
+            <p>Painel completo para gestão de vendas, cupons, clientes e configuração de preços em tempo real.</p>
+            <div class="portfolio-features">
+              <span class="portfolio-feature"><i data-lucide="check"></i> Relatórios</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> Gestão de cupons</span>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="portfolio-image">
+            <div class="portfolio-floating-elements">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="portfolio-icon-wrapper"><i data-lucide="gamepad-2"></i></div>
+          </div>
+          <div class="portfolio-content">
+            <div class="portfolio-tags">
+              <span class="portfolio-tag">HTML/CSS</span>
+              <span class="portfolio-tag">JavaScript</span>
+              <span class="portfolio-tag">APIs</span>
+            </div>
+            <h3>Sites para Games</h3>
+            <p>Calculadoras de preços com cotações em tempo real, tabelas de preços e sistemas de pedidos.</p>
+            <div class="portfolio-features">
+              <span class="portfolio-feature"><i data-lucide="check"></i> Cotação automática</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> Design responsivo</span>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-card">
+          <div class="portfolio-image">
+            <div class="portfolio-floating-elements">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="portfolio-icon-wrapper"><i data-lucide="ticket"></i></div>
+          </div>
+          <div class="portfolio-content">
+            <div class="portfolio-tags">
+              <span class="portfolio-tag">Discord.js</span>
+              <span class="portfolio-tag">Node.js</span>
+            </div>
+            <h3>Bot de Tickets & Suporte</h3>
+            <p>Sistema de tickets com categorias, atribuição automática, logs e transcrição de conversas.</p>
+            <div class="portfolio-features">
+              <span class="portfolio-feature"><i data-lucide="check"></i> Multi-categoria</span>
+              <span class="portfolio-feature"><i data-lucide="check"></i> Logs HTML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i data-lucide="git-branch"></i> Processo</span>
+        <h2 class="section-title">Como <span class="gradient">funciona</span></h2>
+        <p class="section-desc">Do primeiro contato à entrega final</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step"><div class="process-number">1</div><h4>Conversa Inicial</h4><p>Você me conta sua ideia e o que precisa. Entendo seus objetivos e requisitos.</p></div>
+        <div class="process-step"><div class="process-number">2</div><h4>Orçamento</h4><p>Analiso o escopo e envio uma proposta detalhada com prazo e valor.</p></div>
+        <div class="process-step"><div class="process-number">3</div><h4>Desenvolvimento</h4><p>Construo a solução com atualizações frequentes sobre o progresso.</p></div>
+        <div class="process-step"><div class="process-number">4</div><h4>Entrega & Suporte</h4><p>Entrego o projeto com documentação completa e suporte pós-entrega.</p></div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section id="cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Vamos construir algo <span class="gradient">incrível</span> juntos?</h2>
+        <p>Entre em contato e me conte sobre seu projeto. Respondo em até 24 horas!</p>
+        <div class="cta-buttons">
+          <a href="https://discord.com/users/317622009246777344" target="_blank" class="cta-btn discord"><i data-lucide="message-circle"></i> Discord: mininix</a>
+          <a href="https://wa.me/5531983700068" target="_blank" class="cta-btn whatsapp"><i data-lucide="phone"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 <strong>Mininix</strong>. Desenvolvido com dedicação.</p>
+      <div class="social-links">
+        <a href="https://discord.com/users/317622009246777344" target="_blank" title="Discord"><i data-lucide="message-circle"></i></a>
+        <a href="https://wa.me/5531983700068" target="_blank" title="WhatsApp"><i data-lucide="phone"></i></a>
+        <a href="https://github.com/Mininix-San" target="_blank" title="GitHub"><i data-lucide="github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      nav.style.background = window.scrollY > 50 ? 'rgba(9, 9, 11, 0.95)' : 'rgba(9, 9, 11, 0.8)';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.service-card, .portfolio-card, .tech-item, .process-step').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
